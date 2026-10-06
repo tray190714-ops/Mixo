@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MIXO — Prototype V2</title>
+<style>
+:root{--bg:#070a12;--panel:#0d1320;--card:#101827;--line:#243149;--text:#f5f7fb;--muted:#94a1b5;--accent:#7c3aed}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#15112b 0,#070a12 38%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:1180px;margin:auto;min-height:100vh}.top{display:flex;gap:14px;align-items:center;padding:18px 24px;position:sticky;top:0;background:#070a12eF;backdrop-filter:blur(16px);z-index:5}.logo{font-size:27px;font-weight:950;background:linear-gradient(90deg,#8b5cf6,#d946ef);-webkit-background-clip:text;color:transparent}.search{flex:1;background:#111827;border:1px solid var(--line);border-radius:14px;padding:12px 15px;color:#fff;outline:none}.avatar{border:1px solid var(--line);background:#111827;color:#fff;border-radius:50%;width:42px;height:42px}
+nav{display:flex;gap:8px;padding:6px 24px 15px;overflow:auto}.navbtn,.chip,.action{border:1px solid #29364e;background:#111827;color:#dfe6f1;border-radius:12px;padding:10px 14px;cursor:pointer}.navbtn.active,.primary{background:linear-gradient(90deg,#6d35f5,#9b35ff);border-color:transparent;color:#fff}.page{padding:10px 24px 100px}.hidden{display:none}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.panel{background:linear-gradient(145deg,#101827,#0b111c);border:1px solid #202d44;border-radius:22px;padding:22px}.hero h1{font-size:44px;line-height:1.03;margin:7px 0 14px}.muted{color:var(--muted)}.small{font-size:13px}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:var(--card);border:1px solid #243149;border-radius:18px;overflow:hidden;position:relative}.pic{height:180px;background:linear-gradient(135deg,#2b3550,#111827);display:grid;place-items:center;font-size:65px}.cardbody{padding:14px}.price{font-size:20px;font-weight:850;margin:5px 0}.heart{position:absolute;right:10px;top:10px;border:0;border-radius:50%;background:#0a0f19cc;color:#fff;width:38px;height:38px;cursor:pointer}.filters{display:flex;gap:8px;overflow:auto;margin:12px 0}.filters select{background:#111827;color:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}.feed{height:650px;max-width:440px;margin:10px auto 0;position:relative;overflow:hidden;border-radius:25px;border:1px solid #2a3850;background:#101827;touch-action:pan-y}.visual{height:100%;display:grid;place-items:center;font-size:120px;background:radial-gradient(circle at 50% 30%,#35405b,#101827 62%,#070a12)}.feed:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 48%,#03050aaa 100%);pointer-events:none}.overlay{position:absolute;left:0;right:0;bottom:0;padding:22px;z-index:2}.overlay h2{margin:5px 0}.side{position:absolute;right:13px;bottom:145px;display:flex;flex-direction:column;gap:9px;z-index:3}.round{width:49px;height:49px;border-radius:50%;border:1px solid #3b4860;background:#0d1320dd;color:#fff;cursor:pointer;font-size:18px}.form{display:grid;gap:12px;max-width:650px}.form input,.form textarea,.form select{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:#111827;color:#fff}.form textarea{min-height:120px}.drop{border:1px dashed #52617a;border-radius:15px;padding:24px;text-align:center;color:var(--muted)}.messages{display:grid;grid-template-columns:280px 1fr;gap:14px}.conversation{padding:14px;border-bottom:1px solid var(--line);cursor:pointer}.conversation:hover{background:#131c2b}.chat{min-height:420px;display:flex;flex-direction:column;justify-content:space-between}.bubble{padding:11px 14px;border-radius:15px;background:#182235;margin:8px 0;max-width:75%}.mine{margin-left:auto;background:#6d35f5}.bottom{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:5px;background:#0d1320ee;border:1px solid #29364e;padding:8px;border-radius:18px;backdrop-filter:blur(15px);z-index:8}.bottom button{background:none;border:0;color:#aeb8ca;padding:9px 12px;cursor:pointer;border-radius:10px}.bottom .active{background:#6d35f5;color:#fff}.toast{position:fixed;top:75px;right:20px;background:#151e2d;border:1px solid #3a4962;padding:12px 16px;border-radius:12px;display:none;z-index:20}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:34px}.messages{grid-template-columns:1fr}.feed{height:600px}.top{padding:14px}.page{padding-left:14px;padding-right:14px}nav{padding-left:14px}}
+</style>
+<style>
+.authbox{position:fixed;inset:0;background:#000b;display:none;place-items:center;z-index:50;padding:20px}.authbox.show{display:grid}.authpanel{width:min(430px,100%);background:#0d1320;border:1px solid #29364e;border-radius:22px;padding:22px;box-shadow:0 20px 70px #0008}.authpanel h2{margin-top:0}.authpanel input{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:#111827;color:#fff;margin:7px 0}.authactions{display:flex;gap:8px;margin-top:10px}.authstatus{min-height:20px;margin-top:10px}.account{display:flex;gap:8px;align-items:center}.account button{white-space:nowrap}
+@media(max-width:520px){.account .username{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="logo">MIXO</div><input id="search" class="search" placeholder="🔎 Rechercher un article, jeu, vêtement..."><div id="account" class="account"><button class="action" onclick="openAuth()">Connexion</button></div></header>
+<nav>
+<button class="navbtn active" data-page="home">🏠 Accueil</button><button class="navbtn" data-page="discover">🎬 Découvrir</button><button class="navbtn" data-page="categories">🗂️ Catégories</button><button class="navbtn" data-page="messages">💬 Messages</button><button class="navbtn" data-page="profile">👤 Profil</button>
+</nav>
+
+<section id="home" class="page">
+<div class="hero"><div class="panel"><div class="muted">ACHÈTE · VENDS · DÉCOUVRE · PARTAGE</div><h1>Ton nouveau monde de petites annonces.</h1><p class="muted">Une marketplace sociale où tu peux acheter, vendre et découvrir des produits en quelques secondes.</p><button class="action primary" onclick="show('discover')">🎬 Découvrir</button> <button class="action" onclick="show('post')">＋ Vendre</button></div>
+<div class="panel"><h3>🔥 Tendances</h3><p class="muted">Les catégories les plus regardées aujourd’hui.</p><div class="filters"><button class="chip" onclick="filterCat('Mode')">👕 Mode</button><button class="chip" onclick="filterCat('Jeux vidéo')">🎮 Jeux</button><button class="chip" onclick="filterCat('Jouets')">🧸 Jouets</button><button class="chip" onclick="filterCat('Animaux')">🐾 Animaux</button></div></div></div>
+<div class="row"><h2>Annonces pour toi</h2><span id="resultCount" class="muted"></span></div>
+<div class="filters"><select id="catFilter"><option value="">Toutes les catégories</option><option>Mode</option><option>Jeux vidéo</option><option>Jouets</option><option>Animaux</option><option>Autres</option></select><select id="sort"><option value="recent">Récentes</option><option value="priceAsc">Prix croissant</option><option value="priceDesc">Prix décroissant</option></select></div>
+<div id="cards" class="grid"></div>
+</section>
+
+<section id="discover" class="page hidden">
+<div class="row"><div><h2>🎬 Découvrir</h2><p class="muted">Swipe vers le haut pour passer à l’annonce suivante.</p></div><span id="feedCount" class="chip"></span></div>
+<div class="feed" id="feed"><div class="visual" id="visual">🎮</div><div class="side"><button class="round" onclick="likeFeed()">♥</button><button class="round" onclick="toast('💬 Commentaires ouverts')">💬</button><button class="round" onclick="toast('↗ Annonce partagée')">↗</button><button class="round" onclick="saveFeed()">🔖</button></div><div class="overlay"><div class="muted" id="fcat"></div><h2 id="ftitle"></h2><div class="price" id="fprice"></div><p class="muted" id="fmeta"></p><button class="action primary" onclick="toast('Annonce ouverte — prototype')">Voir l’annonce</button> <button class="action" onclick="toast('Message au vendeur')">Contacter</button></div></div>
+</section>
+
+<section id="categories" class="page hidden"><h2>🗂️ Catégories</h2><div class="grid">
+<div class="card" onclick="filterCat('Mode')"><div class="pic">👕</div><div class="cardbody"><b>Mode</b><div class="muted small">Vêtements, chaussures, accessoires</div></div></div>
+<div class="card" onclick="filterCat('Jeux vidéo')"><div class="pic">🎮</div><div class="cardbody"><b>Jeux vidéo</b><div class="muted small">Consoles, jeux, manettes</div></div></div>
+<div class="card" onclick="filterCat('Jouets')"><div class="pic">🧸</div><div class="cardbody"><b>Jouets</b><div class="muted small">Jouets & collections</div></div></div>
+<div class="card" onclick="filterCat('Animaux')"><div class="pic">🐶</div><div class="cardbody"><b>Animaux</b><div class="muted small">Adoption & accessoires</div></div></div></div></section>
+
+<section id="messages" class="page hidden"><h2>💬 Messages</h2><div class="messages"><div class="panel"><div class="conversation"><b>Thomas_yt</b><div class="muted small">La PS5 est toujours disponible ?</div></div><div class="conversation"><b>Lina_mode</b><div class="muted small">Tu peux faire 40 € ?</div></div><div class="conversation"><b>Julie</b><div class="muted small">Bonjour, pour le jouet...</div></div></div><div class="panel chat"><div><b>Thomas_yt · 🟢 En ligne</b><div class="bubble">Bonjour, la PS5 est toujours disponible ?</div><div class="bubble mine">Oui, elle est toujours disponible 👍</div><div class="bubble">Super, merci !</div></div><div class="row"><input id="msg" class="search" placeholder="Écrire un message..."><button class="action primary" onclick="sendMsg()">➤</button></div></div></div></section>
+
+<section id="profile" class="page hidden"><div class="panel"><div class="row"><div><h2>👤 @mixo_user</h2><div class="muted">⭐ 4,8 · 34 abonnés</div></div><button class="action" onclick="toast('Profil modifié')">Modifier</button></div><div class="filters"><span class="chip">12 annonces</span><span class="chip">5 avis</span><span class="chip">34 abonnés</span></div><h3>Mes annonces</h3><div id="profileCards" class="grid"></div></div></section>
+
+<section id="post" class="page hidden"><h2>＋ Créer une annonce</h2><div class="panel"><form id="postForm" class="form"><div class="drop">📷<br><b>Photos</b><br><span class="small">La connexion Supabase est active. Les photos seront branchées juste après.</span></div><input id="ptitle" required placeholder="Titre : ex. Nike Air Max 42"><textarea id="pdesc" required placeholder="Décris ton article..."></textarea><select id="pcat" required><option value="">Choisir une catégorie</option><option>Mode</option><option>Jeux vidéo</option><option>Jouets</option><option>Animaux</option><option>Autres</option></select><input id="pprice" required type="number" min="0" placeholder="Prix (€)"><input id="pcity" placeholder="Ville"><button class="action primary">Publier l’annonce</button></form></div></section>
+
+<div class="bottom"><button onclick="show('home')">🏠</button><button onclick="show('discover')">🎬</button><button onclick="show('post')" class="active">＋</button><button onclick="show('messages')">💬</button><button onclick="show('profile')">👤</button></div>
+<div id="toast" class="toast"></div>
+<div id="authbox" class="authbox" onclick="if(event.target.id==='authbox')closeAuth()"><div class="authpanel">
+  <div class="row"><h2 id="authTitle">Connexion</h2><button class="action" onclick="closeAuth()">✕</button></div>
+  <p id="authHelp" class="muted small">Connecte-toi pour publier, enregistrer des favoris et utiliser ton profil.</p>
+  <input id="authEmail" type="email" placeholder="Email" autocomplete="email">
+  <input id="authPassword" type="password" placeholder="Mot de passe (6 caractères minimum)" autocomplete="current-password">
+  <div class="authactions"><button id="authMain" class="action primary" onclick="submitAuth()">Se connecter</button><button class="action" onclick="toggleAuthMode()">Créer un compte</button></div>
+  <div id="authStatus" class="authstatus small muted"></div>
+</div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://ynhgqqfudwpwzfkykcdm.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_GLaJw5G0lPkZ3iysHRNiXQ_7k00Sxjq';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const demoItems=[
+{id:1,e:'🎮',cat:'Jeux vidéo',title:'PS5 + 2 jeux',price:350,meta:'Bordeaux · Très bon état',fav:false,demo:true},
+{id:2,e:'👟',cat:'Mode',title:'Nike Air Force 1',price:45,meta:'Dax · Taille 42',fav:false,demo:true},
+{id:3,e:'🧸',cat:'Jouets',title:'Lot de jouets enfants',price:20,meta:'Pau · Bon état',fav:false,demo:true},
+{id:4,e:'🐶',cat:'Animaux',title:'Adoption — chiot',price:0,meta:'Bayonne · À adopter',fav:false,demo:true},
+{id:5,e:'📱',cat:'Autres',title:'iPhone 13',price:450,meta:'Toulouse · Très bon état',fav:false,demo:true},
+{id:6,e:'🎮',cat:'Jeux vidéo',title:'Manette PS5',price:40,meta:'Bordeaux · Comme neuve',fav:false,demo:true},
+{id:7,e:'🧥',cat:'Mode',title:'Veste vintage',price:25,meta:'Dax · Très bon état',fav:false,demo:true},
+{id:8,e:'🧸',cat:'Jouets',title:'Collection Pokémon',price:30,meta:'Pau · Bon état',fav:false,demo:true}
+];
+let items=[...demoItems], idx=0, currentFilter='', query='', user=null, profile=null, authSignup=false;
+function money(n){return Number(n)===0?'Gratuit':Number(n).toLocaleString('fr-FR',{maximumFractionDigits:2})+' €'}
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function iconFor(cat){return cat==='Mode'?'👕':cat==='Jeux vidéo'?'🎮':cat==='Jouets'?'🧸':cat==='Animaux'?'🐾':'📦'}
+function card(x){return `<div class="card"><button class="heart" onclick="toggleFav('${esc(x.id)}')">${x.fav?'♥':'♡'}</button><div class="pic">${x.e||iconFor(x.cat)}</div><div class="cardbody"><div class="muted small">${esc(x.cat)}</div><b>${esc(x.title)}</b><div class="price">${money(x.price)}</div><div class="muted small">${esc(x.meta||x.city||'France')}</div></div></div>`}
+async function loadListings(){
+ try{
+  const {data,error}=await db.from('listings').select('id,title,description,price,category,city,image_url,video_url,status,created_at,seller_id').order('created_at',{ascending:false}).limit(100);
+  if(error) throw error;
+  const favIds=new Set();
+  if(user){const f=await db.from('favorites').select('listing_id').eq('user_id',user.id);(f.data||[]).forEach(x=>favIds.add(x.listing_id));}
+  const real=(data||[]).map(x=>({id:x.id,e:iconFor(x.category),cat:x.category,title:x.title,price:x.price,meta:(x.city||'France')+(x.description?' · '+x.description.slice(0,38):''),fav:favIds.has(x.id),seller_id:x.seller_id,image_url:x.image_url,demo:false}));
+  items=[...real,...demoItems]; idx=Math.min(idx,Math.max(0,items.length-1)); renderCards();renderFeed();
+ }catch(e){console.error(e);toast('⚠️ Impossible de charger les annonces');}
+}
+function renderCards(){let a=items.filter(x=>(!currentFilter||x.cat===currentFilter)&&(!query||(`${x.title} ${x.cat} ${x.meta}`).toLowerCase().includes(query.toLowerCase())));const s=document.getElementById('sort').value;if(s==='priceAsc')a.sort((x,y)=>x.price-y.price);if(s==='priceDesc')a.sort((x,y)=>y.price-x.price);document.getElementById('cards').innerHTML=a.map(card).join('')||'<div class="panel">Aucune annonce trouvée.</div>';document.getElementById('resultCount').textContent=a.length+' annonce'+(a.length>1?'s':'');document.getElementById('profileCards').innerHTML=items.filter(x=>!x.demo&&(user?x.seller_id===user.id:true)).slice(0,8).map(card).join('')||'<div class="muted small">Tes annonces apparaîtront ici.</div>'}
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='discover')renderFeed();if(id==='profile')renderProfile();window.scrollTo({top:0,behavior:'smooth'})}
+function filterCat(cat){currentFilter=cat;document.getElementById('catFilter').value=cat;show('home');renderCards()}
+async function toggleFav(id){if(!user){openAuth();toast('Connecte-toi pour utiliser les favoris');return}let x=items.find(a=>String(a.id)===String(id));if(!x)return;if(x.demo){x.fav=!x.fav;toast(x.fav?'❤️ Ajouté aux favoris':'Retiré des favoris');renderCards();return}try{if(x.fav){await db.from('favorites').delete().eq('user_id',user.id).eq('listing_id',x.id)}else{await db.from('favorites').insert({user_id:user.id,listing_id:x.id})}x.fav=!x.fav;toast(x.fav?'❤️ Ajouté aux favoris':'Retiré des favoris');renderCards()}catch(e){toast('⚠️ Favori impossible')}
+}
+function renderFeed(){let x=items[idx%items.length]||demoItems[0];document.getElementById('visual').textContent=x.e||iconFor(x.cat);document.getElementById('fcat').textContent=x.cat;document.getElementById('ftitle').textContent=x.title;document.getElementById('fprice').textContent=money(x.price);document.getElementById('fmeta').textContent=x.meta;document.getElementById('feedCount').textContent=(idx%items.length+1)+' / '+items.length}
+function next(){idx=(idx+1)%items.length;renderFeed()} function prev(){idx=(idx-1+items.length)%items.length;renderFeed()}
+function likeFeed(){toggleFav((items[idx%items.length]||{}).id)} function saveFeed(){toggleFav((items[idx%items.length]||{}).id)}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';clearTimeout(window.timer);window.timer=setTimeout(()=>e.style.display='none',1800)}
+function openAuth(){document.getElementById('authbox').classList.add('show');document.getElementById('authStatus').textContent='';}
+function closeAuth(){document.getElementById('authbox').classList.remove('show')}
+function toggleAuthMode(){authSignup=!authSignup;document.getElementById('authTitle').textContent=authSignup?'Créer un compte':'Connexion';document.getElementById('authMain').textContent=authSignup?'Créer mon compte':'Se connecter';document.getElementById('authHelp').textContent=authSignup?'Crée ton compte MIXO avec ton email et un mot de passe.':'Connecte-toi pour publier, enregistrer des favoris et utiliser ton profil.';document.querySelector('#authactions')}
+async function submitAuth(){const email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value;const st=document.getElementById('authStatus');if(!email||password.length<6){st.textContent='Email valide + mot de passe de 6 caractères minimum.';return}st.textContent='Chargement…';let r;if(authSignup)r=await db.auth.signUp({email,password});else r=await db.auth.signInWithPassword({email,password});if(r.error){st.textContent=r.error.message;return}if(authSignup&&!r.data.session){st.textContent='Compte créé. Vérifie ton email si la confirmation est activée dans Supabase.';return}closeAuth();toast(authSignup?'🎉 Compte créé':'👋 Connexion réussie')}
+function renderAccount(){const el=document.getElementById('account');if(user){const name=profile?.display_name||user.email?.split('@')[0]||'MIXO';el.innerHTML=`<button class="action" onclick="show('profile')"><span class="username">👤 ${esc(name)}</span><span class="username">Profil</span></button><button class="action" onclick="logout()">↪</button>`}else el.innerHTML='<button class="action" onclick="openAuth()">Connexion</button>'}
+async function renderProfile(){const h=document.querySelector('#profile h2');const info=document.querySelector('#profile .muted');if(user){const {data}=await db.from('profiles').select('*').eq('id',user.id).maybeSingle();profile=data||null;h.textContent='👤 @'+(profile?.username||user.email?.split('@')[0]||'mixo_user');info.textContent='Compte MIXO · '+user.email}else{h.textContent='👤 Visiteur';info.textContent='Connecte-toi pour créer ton profil et tes annonces'}renderAccount();renderCards()}
+async function logout(){await db.auth.signOut();toast('Déconnecté');}
+async function sendMsg(){if(!user){openAuth();return}let v=document.getElementById('msg').value.trim();if(!v)return;toast('La messagerie sera branchée à l’étape suivante');document.getElementById('msg').value=''}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>show(b.dataset.page)));
+document.getElementById('search').addEventListener('input',e=>{query=e.target.value;show('home');renderCards()});document.getElementById('catFilter').addEventListener('change',e=>{currentFilter=e.target.value;renderCards()});document.getElementById('sort').addEventListener('change',renderCards);
+document.getElementById('postForm').addEventListener('submit',async e=>{e.preventDefault();if(!user){openAuth();toast('Connecte-toi pour publier une annonce');return}const title=document.getElementById('ptitle').value.trim(),desc=document.getElementById('pdesc').value.trim(),cat=document.getElementById('pcat').value,price=Number(document.getElementById('pprice').value)||0,city=document.getElementById('pcity').value.trim();if(!title||!cat){toast('Titre et catégorie obligatoires');return}const {error}=await db.from('listings').insert({seller_id:user.id,title,description:desc,category:cat,price,city});if(error){console.error(error);toast('⚠️ Publication impossible');return}e.target.reset();toast('🎉 Annonce publiée sur MIXO');await loadListings();show('home')});
+let startY=0;const feed=document.getElementById('feed');feed.addEventListener('touchstart',e=>startY=e.touches[0].clientY,{passive:true});feed.addEventListener('touchend',e=>{let d=e.changedTouches[0].clientY-startY;if(Math.abs(d)>55)d<0?next():prev()});feed.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>25){e.preventDefault();e.deltaY>0?next():prev()}},{passive:false});
+db.auth.getSession().then(async({data})=>{user=data.session?.user||null;renderAccount();await renderProfile();await loadListings()});db.auth.onAuthStateChange(async(_event,session)=>{user=session?.user||null;renderAccount();await renderProfile();await loadListings()});
+renderCards();renderFeed();
+</script>
+</body>
+</html>
